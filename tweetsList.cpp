@@ -3,13 +3,17 @@
 #include <fstream>
 #include <string>
 
+
 using std::map;
 using std::string;
+using std::pair;
 
 int main() {
 
   std::map<string, int> tweetList;
+  std::multimap<int, string> reverseTweetList;
   std::map<string, int>::iterator it;
+  std::multimap<int, string>::reverse_iterator itR;
   string line;
   std::ifstream myfile("tweets");
   if (myfile.is_open()) {
@@ -23,12 +27,17 @@ int main() {
 	  word = "";
 	}
       }
-      // std::cout << word << " "; 
       tweetList[word] = tweetList[word] + 1;
     }
     myfile.close();
     for (it = tweetList.begin(); it != tweetList.end(); it++) {
-      std::cout << (*it).first << " => " << (*it).second << std::endl;
+      //std::cout << (*it).first << "=>" << (*it).second << std::endl;
+    }
+    for (it = tweetList.begin(); it != tweetList.end(); it++) {
+      reverseTweetList.insert (pair<int, string>((*it).second, (*it).first) );
+    }
+    for (itR = reverseTweetList.rbegin(); itR != reverseTweetList.rend(); itR++) {
+      std::cout << (*itR).first << " => " << (*itR).second << std::endl;
     }
   } else {
     std::cout << "Unable to open file";
