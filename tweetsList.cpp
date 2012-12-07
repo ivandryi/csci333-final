@@ -14,6 +14,8 @@ int main() {
   std::multimap<int, string> reverseTweetList;
   std::map<string, int>::iterator it;
   std::multimap<int, string>::reverse_iterator itR;
+  int totalWords = 0;
+  int uniqueWords = 0;
   string line;
   std::ifstream myfile("tweets");
   if (myfile.is_open()) {
@@ -27,6 +29,7 @@ int main() {
 	  word = "";
 	}
       }
+      totalWords++;
       tweetList[word] = tweetList[word] + 1;
     }
     myfile.close();
@@ -37,8 +40,15 @@ int main() {
       reverseTweetList.insert (pair<int, string>((*it).second, (*it).first) );
     }
     for (itR = reverseTweetList.rbegin(); itR != reverseTweetList.rend(); itR++) {
-      std::cout << (*itR).first << " => " << (*itR).second << std::endl;
+       std::cout << (*itR).first << " => " << (*itR).second << std::endl;
     }
+    for (itR = reverseTweetList.rbegin(); itR != reverseTweetList.rend(); itR++) {
+      if ((*itR).first == 1) {
+uniqueWords++;
+      }
+    }
+    std::cout << "Number of unique words: " << uniqueWords << std::endl;
+    std::cout << "Diversity: " << totalWords/uniqueWords << std::endl;
   } else {
     std::cout << "Unable to open file";
   }
